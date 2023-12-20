@@ -1,0 +1,6 @@
+{
+  "helloWorld": "你好!",
+  "changeLanguage": "中英文切换",
+  "changeSimplify": "繁简体切换",
+  "personalizationSettings": "个性化设置"
+}
