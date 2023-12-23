@@ -1,6 +1,6 @@
-# mytest3
+# myTally
 
-A new Flutter project.
+This is a very simple expense tracking app, and the only highlight might be the implementation of chart functionality. The overall design is inspired by "Xiaoqingzhang" and "Shayu Jizhang" apps.
 
 ## Getting Started
 
