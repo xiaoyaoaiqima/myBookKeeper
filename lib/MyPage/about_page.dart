@@ -2,7 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../Provider/app_language_provider.dart';
+
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AppLanguageProvider>(
+      create: (_) => AppLanguageProvider(),
+      child: Consumer<AppLanguageProvider>(builder: (context, model, child) {
+        return MaterialApp(
+          locale: model.appLocale,  // 将locale设置成你的model对象的appLocale
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const AboutPage(),
+        );
+      }),
+    );
+  }
+}
+
+
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -16,12 +51,12 @@ class AboutPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           AppLocalizations.of(context)!.about,
-          style: textTheme.headline6,
+          style: textTheme.titleLarge,
         ),
-        backgroundColor: Color(0xFFF3F3F3),
+        backgroundColor: const Color(0xFFF3F3F3),
         elevation: 0.0,
       ),
-      backgroundColor: Color(0xFFF3F3F3),
+      backgroundColor: const Color(0xFFF3F3F3),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: ListView(
@@ -47,9 +82,21 @@ class AboutPage extends StatelessWidget {
   Widget titleSection(String title, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headline6,
+      child: Container(
+
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200, // 设置背景色
+          border: Border.all(
+            color: Colors.deepPurple, // 你可以选择你想要的颜色
+            width: 2.0, // 边框宽度
+          ),
+          borderRadius: BorderRadius.circular(8.0), // 边框圆角
+        ),
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
     );
   }
@@ -59,7 +106,7 @@ class AboutPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10.0),
       child: Text(
         info,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

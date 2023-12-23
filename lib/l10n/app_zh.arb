@@ -1,6 +1,29 @@
 {
-  "helloWorld": "你好!",
+  "login": "登录",
+  "register": "注册",
+  "username": "用户名",
+  "password": "密码",
+
   "changeLanguage": "中英文切换",
   "changeSimplify": "繁简体切换",
-  "personalizationSettings": "个性化设置"
+  "personalizationSettings": "个性化设置",
+
+  "about": "关于",
+  "about_appinfo": "应用信息",
+  "about_version": "版本",
+  "about_1": "1.0",
+  "about_app": "关于应用",
+  "about_balabala": "本人大三学期的移动端开发课设",
+  "about_developer": "开发者",
+  "about_me": "关于我",
+  "about_loc": "坐标杭州，软件开发。",
+  "about_email": "发送邮箱",
+  "about_email2": "我的邮箱是：1428293926@qq.com，有问题可以找我！",
+  "about_code": "源代码",
+  "about_codeinfo": "GitHub地址链接为：https://github.com/xiaoyaoaiqima/myBookKeeper",
+
+  "tally": "账本",
+  "month_in": "本月收入",
+  "month_out": "本月支出",
+  "budget": "预算结余"
 }

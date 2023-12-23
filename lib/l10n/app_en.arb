@@ -1,9 +1,30 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  },
+  "login": "Login",
+  "register": "Register",
+  "username": "username",
+  "password": "password",
+
   "changeLanguage": "Change Language",
   "changeSimplify": "Change Simplify",
-  "personalizationSettings": "Personalization Settings"
+  "personalizationSettings": "Personalization Settings",
+
+  "about": "About",
+  "about_appinfo": "App Info",
+  "about_version": "Version",
+  "about_1": "1.0",
+  "about_app": "About App",
+  "about_balabala": "This is my mobile development project for the third semester of my junior year.",
+  "about_developer": "Developer",
+  "about_me": "About Me",
+  "about_loc": "Located in Hangzhou, software development.",
+  "about_email": "Send Email",
+  "about_email2": "My email is: 1428293926@qq.com. Feel free to contact me if you have any questions!",
+  "about_code": "Source Code",
+  "about_codeinfo": "The GitHub repository can be found at: https://github.com/xiaoyaoaiqima/myBookKeeper",
+
+  "tally": "Tally",
+  "month_in": "Month In",
+  "month_out": "Month Out",
+  "budget": "Budget Surplus"
+
 }
