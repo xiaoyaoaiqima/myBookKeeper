@@ -52,17 +52,17 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: () {
             showOutLoginDialog(context);
           },
-          child: Text('退出登录'),
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: Colors.red,
-            minimumSize: Size(double.infinity, 50),
+            minimumSize: const Size(double.infinity, 50),
           ),
+          child: const Text('退出登录'),
         ),
       ),
 

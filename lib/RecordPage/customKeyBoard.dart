@@ -148,7 +148,7 @@ class CustomKeyboardState extends State<CustomKeyboard> {
                             onPressed: () {
                               // 在这里添加你的处理代码
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               // 设置图标和文字居中
                               children: <Widget>[
@@ -168,7 +168,7 @@ class CustomKeyboardState extends State<CustomKeyboard> {
                         Expanded(
                           child: TextField(
                             controller: noteController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '请输入备注',
                             ),
                           ),
@@ -180,7 +180,7 @@ class CustomKeyboardState extends State<CustomKeyboard> {
                             onPressed: () {
                               // 按钮点击操作
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               // 居中对齐 横向
                               children: <Widget>[
@@ -194,7 +194,7 @@ class CustomKeyboardState extends State<CustomKeyboard> {
                           ),
                         ),
                         Text("￥ $inputValueString"),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         )
                       ],
@@ -209,7 +209,7 @@ class CustomKeyboardState extends State<CustomKeyboard> {
                 child: SizedBox(
                   height: 300,
                   child: Table(
-                    border: TableBorder(
+                    border: const TableBorder(
                       top: BorderSide(color: Colors.grey),
                       verticalInside: BorderSide(color: Colors.grey),
                       horizontalInside: BorderSide(color: Colors.grey),
@@ -311,8 +311,8 @@ class CustomKeyboardState extends State<CustomKeyboard> {
           },
           child: Container(
             alignment: Alignment.center,
-            child: Text(key, style: TextStyle(fontSize: 16)),
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
+            child: Text(key, style: const TextStyle(fontSize: 16)),
           ),
         );
       }).toList(),

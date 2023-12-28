@@ -8,7 +8,7 @@ import '../db/openDB.dart';
 class OutcomePage extends StatefulWidget {
   final DatabaseManager dbManager;
 
-  OutcomePage({super.key, required this.dbManager});
+  const OutcomePage({super.key, required this.dbManager});
 
   @override
   _OutcomePageState createState() => _OutcomePageState();

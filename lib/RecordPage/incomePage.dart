@@ -7,7 +7,7 @@ import '../db/openDB.dart';
 
 class IncomePage extends StatefulWidget {
   final DatabaseManager dbManager;
-  IncomePage({super.key, required this.dbManager});
+  const IncomePage({super.key, required this.dbManager});
   @override
   _IncomePageState createState() => _IncomePageState();
 }

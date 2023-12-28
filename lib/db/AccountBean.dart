@@ -1,3 +1,42 @@
+class Pair {
+  final int count;
+  final MonthSortMoneyData data;
+
+  Pair(this.count, this.data);
+}
+
+class MonthSortMoneyData {
+  final double money;
+  final String typeName;
+  final String sImageId;
+  int count;
+  double percent;  // Adding a new member to hold the percentage
+
+  MonthSortMoneyData({
+    required this.money,
+    required this.typeName,
+    required this.sImageId,
+    this.count = 0,
+    this.percent = 0.0,  // Setting the default value to 0.0
+  });
+
+  MonthSortMoneyData copyWith({
+    double? money,
+    String? typeName,
+    String? sImageId,
+    int? count,
+    double? percent,  // Adding a new parameter to the copyWith method
+  }) {
+    return MonthSortMoneyData(
+      money: money ?? this.money,
+      typeName: typeName ?? this.typeName,
+      sImageId: sImageId ?? this.sImageId,
+      count: count ?? this.count,
+      percent: percent ?? this.percent,  // Adding the new parameter to the constructor
+    );
+  }
+}
+
 class AccountBean {
   int id;
   String typeName;

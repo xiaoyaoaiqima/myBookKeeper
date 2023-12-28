@@ -25,6 +25,11 @@
   "tally": "Tally",
   "month_in": "Month In",
   "month_out": "Month Out",
-  "budget": "Budget Surplus"
+  "budget": "Budget Surplus",
+  "income": "Income",
+  "outcome": "OutCome",
+  "bottomText": "The current account is the last three days, more please see the detailed account at the bottom",
+
+  "test1": "mytest1"
 
 }

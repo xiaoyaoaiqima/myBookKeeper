@@ -25,7 +25,8 @@ class DatabaseManager {
       // if (exists) {await deleteDatabase(path);}
 
       database =
-          await openDatabase(path, version: 1, onCreate: (db, version) async {
+          await openDatabase(path, version: 3,
+              onCreate: (db, version) async {
         // 账号密码验证
         await db.execute('''
           CREATE TABLE User(
@@ -71,7 +72,23 @@ class DatabaseManager {
         FOREIGN KEY(typeName) REFERENCES typetb(typeName),
         FOREIGN KEY(userName) REFERENCES User(userName)
       )''');
-      });
+      },
+              onUpgrade: (db, oldVersion, newVersion) async {
+              // 处理数据库升级的操作
+              switch(oldVersion) {
+                case 2:
+                  await db.execute('''
+                  CREATE TABLE calendarEvent (
+                  id INTEGER PRIMARY KEY,
+                  userName TEXT,
+                  time TEXT,
+                  event TEXT
+               )
+              ''');
+              // 这里没有break语句，这样当新的版本号大于2时，所有的升级操作都会被执行
+              }
+            },
+      );
     } catch (e) {
       if (kDebugMode) {
         print('Failed to open database: $e');
@@ -216,7 +233,40 @@ class DatabaseManager {
       1
     ]);
   }
+  Future<bool> addOneEventIn(String userName, DateTime time, String event) async {
+    try {
+      await database.insert(
+        'calendarEvent',
+        {
+          'userName': userName,
+          'time': time.toIso8601String(),
+          'event': event,
+        },
+      );
+      return true;
+    } catch (error) {
+      print('Failed to add event: $error');
+      return false;
+    }
+  }
+  Future<Map<DateTime, List<String>>> readAllEventIn(String userName) async {
+    // 从数据库查询所有的事件
+    final List<Map<String, dynamic>> maps = await database.query('calendarEvent', where: 'userName = ?', whereArgs: [userName]);
+    // 用于存储结果的映射
+    var events = <DateTime, List<String>>{};
+    for(var row in maps) {
+      var event = row['event'];
+      var time = DateTime.parse(row['time']);
 
+      // 如果映射中已经有这个时间，就添加到它对应的列表中
+      if(events.containsKey(time)) {
+        events[time]?.add(event);
+      } else {
+        events[time] = [event];
+      }
+    }
+    return events;
+  }
   Future<List<TypeBean>> getTypeList(int kind) async {
 
     final List<Map<String, dynamic>> maps = await database.query(
@@ -404,5 +454,47 @@ class DatabaseManager {
   ''', [username, '%$note%']);
 
     return results.map((json) => AccountBean.fromJson(json)).toList();
+  }
+
+  Future<Map<int, MonthSortMoneyData>> getMonthSortMoney(String username, int year, int month, int kind) async {
+    // 数据库查询逻辑
+    final db = database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'accounttb',
+      where: 'userName = ? AND year = ? AND month = ? AND kind = ?',
+      whereArgs: [username, year, month, kind],
+    );
+
+    List<MonthSortMoneyData> dataList = List.generate(maps.length, (i) {
+      return MonthSortMoneyData(
+        money: maps[i]['money'],
+        typeName: maps[i]['typeName'],
+        sImageId: maps[i]['sImageId'],
+      );
+    });
+
+    double totalMoney = dataList.fold(0.0, (sum, element) => sum + element.money);
+
+    var countMap = dataList.fold(<String, MonthSortMoneyData>{}, (map, element) {
+      if (map[element.typeName] == null) {
+        double percent = (element.money / totalMoney);
+        map[element.typeName] = element.copyWith(count: 1, percent: double.parse(percent.toStringAsFixed(2)));
+      } else {
+        double updatedMoney = map[element.typeName]!.money + element.money;
+        double percent = updatedMoney / totalMoney;
+        map[element.typeName] = map[element.typeName]!.copyWith(
+          money: updatedMoney,
+          count: map[element.typeName]!.count + 1,
+          percent: double.parse(percent.toStringAsFixed(2)), // Calculate the percentage by dividing by the total money and limit to 2 decimal points
+        );
+      }
+      return map;
+    });
+    // 将Map转成List并根据count进行排序
+    List<MonthSortMoneyData> sortedList = countMap.values.toList()
+      ..sort((a, b) => b.money.compareTo(a.money));
+
+    // 将排序的排名作为键，MonthSortMoneyData对象作为值，以Map格式返回
+    return { for (var i = 0; i < sortedList.length; ++i) i + 1: sortedList[i] };
   }
 }

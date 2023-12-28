@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../db/AccountBean.dart';
 
 String formatDate(DateTime date) {
-  return '${date.day.toString().padLeft(2, '0')}';
+  return date.day.toString().padLeft(2, '0');
 }
 
 Widget buildResult(BuildContext context,AccountBean account) {
   return Row(
     children: [
       Image.asset(account.sImageId),
-      SizedBox(
+      const SizedBox(
         width: 5,
       ),
       Column(

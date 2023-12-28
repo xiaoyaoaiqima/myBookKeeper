@@ -7,9 +7,9 @@ import 'incomePage.dart';
 import 'outcomePage.dart';
 
 class RecordPage extends StatefulWidget {
-  late final DatabaseManager dbManager;
+  final DatabaseManager dbManager;
 
-  RecordPage({super.key, required this.dbManager});
+  const RecordPage({super.key, required this.dbManager});
 
   @override
   _RecordPageState createState() => _RecordPageState();
@@ -35,9 +35,9 @@ class _RecordPageState extends State<RecordPage>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("记一笔吧"),
+        title: const Text("记一笔吧"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         bottom: TabBar(

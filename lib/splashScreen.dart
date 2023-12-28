@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: (200)),
+      duration: const Duration(seconds: (200)),
       vsync: this,
     );
   }
@@ -32,16 +32,16 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
         body:  Center(child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 10,
               height: 20,
             ),
-            Image(image: AssetImage("assets/splashlogo.png"),
+            const Image(image: AssetImage("assets/splashlogo.png"),
               width: 300,
               height: 300,
               fit: BoxFit.contain,
             ),
-            Container(
+            SizedBox(
               width: 200,
               height: 200,
               child:   DotLottieLoader.fromAsset("assets/load1.lottie",

@@ -51,7 +51,7 @@ class _AllRecordPage extends State<AllRecordPage>{
                         GestureDetector(
                           onTap: () => showCupertinoModalPopup(
                             context: context,
-                            builder: (_) => _buildCupertinoDatePicker(context),
+                            builder: (_) => _buildCupertinoDatePicker(context, selectedYear, selectedMonth),
                           ),
                           child: Column(
                             children: <Widget>[
@@ -98,8 +98,16 @@ class _AllRecordPage extends State<AllRecordPage>{
                       itemBuilder: (context, index) {
                         int day = sortedDays[index];
                         List<AccountBean> dayAccounts = dataMap[day]!;
+                        double? dayIn = dayAccounts.where((element) => element.kind == 1).fold(0, (sum, element) => sum! + element.money);
+                        double? dayOut = dayAccounts.where((element) => element.kind == 0).fold(0, (sum, element) => sum! + element.money);
                         return ListTile(
-                          title: Text('$selectedYear年$selectedMonth月$day日'),
+                          title: Row(
+                            children: [
+                              Text('$selectedYear年$selectedMonth月$day日'),
+                              const Spacer(),
+                              Text('income:$dayIn outcome:$dayOut')
+                            ],
+                          ),
                           subtitle: Column(
                             children: dayAccounts.map((account) => GestureDetector(
                               onLongPress: () => showDeleteItemDialog(context).then((value) =>
@@ -169,7 +177,7 @@ class _AllRecordPage extends State<AllRecordPage>{
     );
   }
 
-  Widget _buildCupertinoDatePicker(BuildContext context) {
+  Widget _buildCupertinoDatePicker(BuildContext context, int selectedYear, int selectedMonth) {
     return Container(
       height: 200.0,
       color: Colors.white,
@@ -177,20 +185,21 @@ class _AllRecordPage extends State<AllRecordPage>{
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildPicker(2000, 2025, selectedYear, (value) {
-            setState(() {
-              selectedYear =  value + 2000;
-            });
+            updateDate(value + 2000, selectedMonth);
           }),
           _buildPicker(1, 12, selectedMonth, (value) {
-            setState(() {
-              selectedMonth = value + 1;
-            });
+            updateDate(selectedYear, value + 1);
           }),
         ],
       ),
     );
   }
-
+  void updateDate(int year, int month) {
+    setState(() {
+      selectedYear = year;
+      selectedMonth = month;
+    });
+  }
   Widget _buildPicker(int start, int end, int selectedValue, ValueChanged<int> onSelectChanged) {
     return Expanded(
       child: CupertinoPicker(

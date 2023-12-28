@@ -25,5 +25,9 @@
   "tally": "账本",
   "month_in": "本月收入",
   "month_out": "本月支出",
-  "budget": "预算结余"
+  "budget": "预算结余",
+  "income": "收入",
+  "outcome": "支出",
+  "bottomText": "当前为近三天账单，更多请在底部详细账单内查看",
+  "test1": "测试"
 }

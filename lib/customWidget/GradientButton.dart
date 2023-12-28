@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
-  const GradientButton({Key? key,
+  const GradientButton({super.key,
     this.colors,
     this.width,
     this.height,
     this.onPressed,
     this.borderRadius,
     required this.child,
-  }) : super(key: key);
+  });
 
   // 渐变色数组
   final List<Color>? colors;
@@ -28,19 +28,19 @@ class GradientButton extends StatelessWidget {
     ThemeData theme = Theme.of(context);
 
     //确保colors数组不空
-    List<Color> _colors =
+    List<Color> tColors =
         colors ?? [theme.primaryColor, theme.primaryColorDark];
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: _colors),
+        gradient: LinearGradient(colors: tColors),
         borderRadius: borderRadius,
         //border: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          splashColor: _colors.last,
+          splashColor: tColors.last,
           highlightColor: Colors.transparent,
           borderRadius: borderRadius,
           onTap: onPressed,

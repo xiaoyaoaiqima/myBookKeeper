@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mytest3/utils/LinePainter.dart';
+import 'package:mytest3/utils/myUtils.dart';
 import 'package:provider/provider.dart';
 import 'customWidget/GradientButton.dart';
 import 'Provider/user_provider.dart';
@@ -39,6 +40,7 @@ class LoginPageState extends State<LoginPage> {
       }
     }).then((user) {
       Provider.of<UserProvider>(context, listen: false).setCurrentUser(user);
+      constUsername = username;
       if (kDebugMode) {
         print(user.toMap().toString());
       }
@@ -64,7 +66,7 @@ class LoginPageState extends State<LoginPage> {
           return widget.dbManager.insert(username, password);
         }
       }).then((_) async {
-        // 注册成功，获取用户信息，并保存到 Provider 中
+        constUsername = username;
         return await widget.dbManager.getUser(username);
       }).then((user) {
         Provider.of<UserProvider>(context, listen: false).setCurrentUser(user);
@@ -91,7 +93,7 @@ class LoginPageState extends State<LoginPage> {
             children: [
               Container(
                 height: 250,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/loginEllipse.png'),
                     fit: BoxFit.cover,
@@ -100,11 +102,11 @@ class LoginPageState extends State<LoginPage> {
                 child: Center(
                   child: Text(
                     AppLocalizations.of(context)!.login,
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -122,15 +124,15 @@ class LoginPageState extends State<LoginPage> {
                       });
                     },
                   ),
-                  SizedBox(width: 10), // 调整按钮之间的间距
+                  const SizedBox(width: 10), // 调整按钮之间的间距
                   CustomPaint(
                     painter: LinePainter(
-                        Offset(0, -10),
-                        Offset(0, 40)
+                        const Offset(0, -10),
+                        const Offset(0, 40)
                     ),
-                    size: Size(2, 20),
+                    size: const Size(2, 20),
                   ),
-                  SizedBox(width: 10), // 调整按钮之间的间距
+                  const SizedBox(width: 10), // 调整按钮之间的间距
                   ElevatedButton(
                     child: Text(
                       AppLocalizations.of(context)!.register,
@@ -147,11 +149,11 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // Divider(height: 2),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 80),
+                padding: const EdgeInsets.symmetric(horizontal: 80),
                 child: Column(
                   children: [
                     TextField(
@@ -160,7 +162,7 @@ class LoginPageState extends State<LoginPage> {
                         labelText: AppLocalizations.of(context)!.username,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                       controller: _passwordController,
                       obscureText: true,
@@ -168,18 +170,18 @@ class LoginPageState extends State<LoginPage> {
                         labelText: AppLocalizations.of(context)!.password,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     GradientButton(
                       colors: const [Colors.orange, Colors.red],
                       height: 50.0,
-                      child: Text(
-                        isLoginMode ? AppLocalizations.of(context)!.login :
-                        AppLocalizations.of(context)!.register,
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
                       onPressed: isLoginMode
                           ? () => login(context)
                           : () => register(context),
+                      child: Text(
+                        isLoginMode ? AppLocalizations.of(context)!.login :
+                        AppLocalizations.of(context)!.register,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:mytest3/Provider/user_provider.dart';
 import 'package:mytest3/utils/my_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '';
 import 'db/AccountBean.dart';
 import 'db/openDB.dart';
 import 'myBottomNavigationBar.dart';
@@ -11,7 +12,7 @@ class AccountPage extends StatefulWidget {
   final DatabaseManager dbManager;
 
 
-  AccountPage({super.key, required this.dbManager});
+  const AccountPage({super.key, required this.dbManager});
 
   @override
   _AccountPageState createState() => _AccountPageState();
@@ -76,8 +77,8 @@ class _AccountPageState extends State<AccountPage> {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            padding: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: Column(
               children: <Widget>[
                 Row(
@@ -109,7 +110,7 @@ class _AccountPageState extends State<AccountPage> {
                         Column(
                           children: <Widget>[
                             Text(AppLocalizations.of(context)!.month_out),
-                            Text(ifHidden ? "****" : "￥ ${currentMonthOut}",
+                            Text(ifHidden ? "****" : "￥ $currentMonthOut",
                                 style: const TextStyle(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
@@ -137,17 +138,17 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         RichText(
                           text: TextSpan(
                             text: AppLocalizations.of(context)!.month_in,
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             children: <TextSpan>[
                               TextSpan(
-                                  text: ifHidden ? "***" : '￥ ${currentMonthIn}',
-                                  style: TextStyle(
+                                  text: ifHidden ? "***" : '￥ $currentMonthIn',
+                                  style: const TextStyle(
                                       color: Colors.greenAccent, fontSize: 18)),
                             ],
                           ),
@@ -158,11 +159,11 @@ class _AccountPageState extends State<AccountPage> {
                             child: RichText(
                               text: TextSpan(
                                 text: AppLocalizations.of(context)!.budget,
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                                 children: [
                                   TextSpan(
-                                      text: ifHidden ? "***" : '￥ ${currentMonthBudget}',
-                                      style: TextStyle(color: Colors.black))
+                                      text: ifHidden ? "***" : '￥ $currentMonthBudget',
+                                      style: const TextStyle(color: Colors.black))
                                 ],
                               ),
                             ),
@@ -203,69 +204,67 @@ class _AccountPageState extends State<AccountPage> {
                     return ListView.builder(
                       itemCount: allAccounts.length,
                       itemBuilder: (_, i) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Column(
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("$year年$month月${day - i}日"),
-                                  Text(
-                                    "Income: \$${allIncomes[i]} Out: \$${allOutcomes[i]}",
-                                  ),
-                                ],
+                              Text("$year年$month月${day - i}日"),
+                              Text(
+                                "${AppLocalizations.of(context)!.income}: \$${allIncomes[i]} ${AppLocalizations.of(context)!.outcome}: \$${allOutcomes[i]}",
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              ...allAccounts[i]
+                            ],
+                          ),
+                          subtitle: Padding(padding: const EdgeInsets.only(top: 8),
+                            child: Column(
+                              children: allAccounts[i]
                                   .map(
                                     (account) => GestureDetector(
                                   onLongPress: () => showDeleteItemDialog(context).then((value) =>
                                   value ? widget.dbManager.deleteAccount(account.id) : null),
-                                  child: Row(
-                                    children: [
-                                      Image.asset(account.sImageId),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            account.typeName,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Theme.of(context).colorScheme.onSurface,
-                                            ),
+                                          Image.asset(account.sImageId),
+                                          const SizedBox(
+                                            width: 5,
                                           ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                account.typeName,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context).colorScheme.onSurface,
+                                                ),
+                                              ),
+                                              Text(
+                                                account.note,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
                                           Text(
-                                            account.note,
+                                            '￥${account.money}',
                                             style: TextStyle(
-                                              fontSize: 12,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
+                                              color: (account.kind == 0)
+                                                  ? Colors.red
+                                                  : Colors.green,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const Spacer(),
-                                      Text(
-                                        '\￥${account.money}',
-                                        style: TextStyle(
-                                          color: (account.kind == 0)
-                                              ? Colors.red
-                                              : Colors.green,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              )
-                                  .toList(),
-                            ],
+                              ).toList(),
+                            ),
                           ),
                         );
                       },
@@ -275,9 +274,9 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
           ),
-          const Text(
-            "当前为三天内账单，更多请在底部账单内查看",
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.bottomText,
+            style: const TextStyle(
               fontSize: 14,
               color: Colors.grey,
             ),
